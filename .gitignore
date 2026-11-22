@@ -1,0 +1,4 @@
+node_modules/
+dist/
+/tower-builder.html
+.DS_Store

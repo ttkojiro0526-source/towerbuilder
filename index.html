@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#131c2b" />
+    <meta name="description" content="揺れるクレーンから床を投下して積み上げる、日本語のワンボタン物理ゲーム。" />
+    <title>絶叫！タワービルダー</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"><i></i><b></b></div>
+          <h1><span>絶叫！</span>タワービルダー</h1>
+        </div>
+        <div class="toolbar">
+          <button class="toolbar-button" id="mute" type="button" aria-pressed="false"><span class="speaker" aria-hidden="true"></span><span id="mute-label">サウンド</span></button>
+          <button class="toolbar-button" id="open-settings" type="button" aria-haspopup="dialog"><span class="gear" aria-hidden="true">⚙</span>設定</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="stage-card" aria-labelledby="stage-title">
+        <div class="stage-header">
+          <h2 id="stage-title"><span class="site-icon" aria-hidden="true"><i></i></span>建設現場</h2>
+          <span id="stage-status" class="stage-status" data-state="ready">投下可能</span>
+        </div>
+        <div class="stage-view">
+          <canvas id="stage" aria-label="クレーン、足場と積み上げたブロックの表示"></canvas>
+          <div class="game-over" id="game-over" hidden>
+            <div class="result" role="group" aria-labelledby="result-title">
+              <div class="result-icon" aria-hidden="true">!</div>
+              <h2 id="result-title">ゲームオーバー</h2>
+              <p>3階層が連鎖崩壊しました</p>
+              <div class="result-stat"><span>最高到達高度</span><strong id="result-peak">0.0</strong><span>m</span></div>
+              <button class="action" id="restart" type="button">もう一度プレイ</button>
+            </div>
+          </div>
+        </div>
+        <div class="stage-footer">
+          <span class="key-help"><kbd>Space</kbd><span>または</span><span class="mouse-icon" aria-hidden="true"></span><span>画面クリックで投下</span></span>
+          <span class="stage-objective">3階層の連鎖崩壊で終了</span>
+        </div>
+      </section>
+
+      <aside class="side" aria-label="建設記録と投下操作">
+        <section class="panel score-panel" aria-labelledby="score-title">
+          <h2 class="panel-title" id="score-title"><span class="bars-icon" aria-hidden="true"><i></i><i></i><i></i></span>建設記録</h2>
+          <div class="current-stat">
+            <span>現在の高さ</span>
+            <div><strong id="height">0.0</strong><span class="unit">m</span></div>
+          </div>
+          <div class="secondary-stats">
+            <div><span>最高到達高度</span><div><strong id="peak">0.0</strong><span class="unit">m</span></div></div>
+            <div><span>ベストスコア</span><div><strong id="best">0.0</strong><span class="unit">m</span></div></div>
+          </div>
+        </section>
+
+        <section class="panel block-panel" aria-labelledby="piece-title">
+          <h2 class="panel-title" id="piece-title"><span class="piece-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>次のブロック</h2>
+          <div class="piece-info">
+            <div class="piece-preview"><canvas id="piece-image" width="146" height="144" aria-hidden="true"></canvas></div>
+            <div>
+              <h3 id="piece-name">標準階</h3>
+              <span class="material" id="piece-material" data-material="standard">標準</span>
+              <p id="piece-description">幅広で安定しやすい</p>
+            </div>
+          </div>
+        </section>
+
+        <button class="action drop-button" id="drop" type="button" aria-disabled="false"><span class="drop-mark" aria-hidden="true"></span><span id="drop-label">ブロックを投下</span><kbd aria-hidden="true">Space</kbd></button>
+
+        <section class="panel chain-panel" aria-labelledby="chain-title">
+          <div class="chain-label"><h2 id="chain-title">連鎖崩壊</h2><span><strong id="chain">0</strong> / 3</span></div>
+          <div class="chain-meter" id="chain-meter" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="build-counts"><span>投下 <strong id="drops">0</strong></span><span>場外 <strong id="discarded">0</strong></span></div>
+        </section>
+      </aside>
+    </main>
+
+    <dialog id="settings" aria-labelledby="settings-title">
+      <div class="settings-top">
+        <h2 id="settings-title">設定</h2>
+        <form method="dialog"><button class="toolbar-button close-button" aria-label="設定を閉じる">×</button></form>
+      </div>
+      <div class="settings-body">
+        <label class="range-row"><span>音量</span><output id="volume-value">55%</output><input type="range" id="volume" min="0" max="100" value="55"></label>
+        <details id="debug">
+          <summary>デバッグ・物理調整</summary>
+          <div id="tuning-controls"></div>
+          <label class="toggle-row"><input type="checkbox" id="debug-draw"> 境界・重心・速度・判定状態を表示</label>
+          <button class="toolbar-button" id="reset-tuning" type="button">物理設定を初期値に戻す</button>
+        </details>
+      </div>
+    </dialog>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
