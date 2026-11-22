@@ -79,6 +79,8 @@ npm run preview
 
 テストは、8階の連続投下とカメラ追従、横倒しの縦長階への積み増し、小型階の端での転倒、非接触の投棄、1〜3階層の物理崩壊、連鎖時間の境界と重複排除を確認します。ビルド済みJavaScriptのDOMテストでは、Spaceとクリック、リザルト、リスタート、音量設定、スコア保存を再現します。
 
-静的ホスティングで公開するには、生成された `dist/` の全内容を既存の公開ディレクトリへ配置し、公開URLの `index.html` を開きます。静的ホスティング側でビルドする場合は、インストールに `npm ci`、ビルドに `npm run build`、出力ディレクトリに `dist` を設定します。APIやデータベースは不要です。
+GitHub Pagesは `main` へのプッシュ時に、GitHub Actionsで `npm ci` と `npm run build` を実行し、`dist/` を公開します。公開パスは `/towerbuilder/` です。ローカルでは、`npm run dev` はルートURLで、`npm run preview` は `/towerbuilder/` で開きます。 [GitHub Pages](https://ttkojiro0526-source.github.io/towerbuilder/)
+
+別のリポジトリで同じデプロイを使う場合は、リポジトリの Settings → Pages → Build and deployment で Source を GitHub Actions に設定し、`vite.config.ts` の公開パスをリポジトリ名に合わせます。
 
 `npm run build:play` は同じビルドから、コード・CSS・音声を埋め込んだ `tower-builder.html` を生成します。
